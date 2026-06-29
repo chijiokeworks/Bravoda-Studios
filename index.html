@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0A0A0A" />
+  <link rel="icon" type="image/png" href="favicon.png" />
   <title>Bravoda Studios — We Build The Systems Your Brand Grows On</title>
   <style>
     /* ============================================================
@@ -623,12 +624,20 @@
     <a href="#home" class="nav-logo">
       <!--
       ══════════════════════════════════════════════════
-      LOGO: Replace below div with:
-        <img src="YOUR_LOGO.png" alt="Bravoda Studios" class="logo-img" />
-      Resize: edit --logo-height-desktop / --logo-height-mobile in :root
+      NAV LOGO — paste your logo file path into src="" below.
+      Example: src="images/bravoda-logo.png"
+      To resize: edit --logo-height-desktop and --logo-height-mobile
+      in the :root CSS variables at the top of this file.
       ══════════════════════════════════════════════════
       -->
-      <div class="logo-placeholder">
+      <img
+        src="Bravoda studios combo@4x-8.png"
+        alt="Bravoda Studios"
+        class="logo-img"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <!-- Fallback text shown if logo image is missing -->
+      <div class="logo-placeholder" style="display:none;">
         <span class="logo-word">BRAVODA</span>
         <span class="logo-badge">STUDIOS</span>
       </div>
@@ -744,26 +753,113 @@
 
     <div class="work-scroll-wrapper" id="workScroll">
       <div class="work-track">
+        <!-- ══ WORK CARD 1 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
         <div class="work-card reveal reveal-delay-1">
-          <div class="work-card-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <img
+            src="HOLDER 1.png"
+            alt="Project 1"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
           <div class="work-card-overlay"><h4>Project Name</h4><p>Brand Strategy · Identity</p></div>
         </div>
+        <!-- ══ WORK CARD 2 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
         <div class="work-card reveal reveal-delay-2">
-          <div class="work-card-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <img
+            src="HOLDER 2.png"
+            alt="Project 2"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
           <div class="work-card-overlay"><h4>Project Name</h4><p>Web · Sales Funnel</p></div>
         </div>
+        <!-- ══ WORK CARD 3 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
         <div class="work-card reveal reveal-delay-3">
-          <div class="work-card-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <img
+            src="HOLDER 3.png"
+            alt="Project 3"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
           <div class="work-card-overlay"><h4>Project Name</h4><p>Marketing · Content</p></div>
         </div>
+        <!-- ══ WORK CARD 4 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
         <div class="work-card reveal reveal-delay-4">
-          <div class="work-card-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <img
+            src=""
+            alt="Project 4"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
           <div class="work-card-overlay"><h4>Project Name</h4><p>Brand · Automation</p></div>
         </div>
+        <!-- ══ WORK CARD 5 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
         <div class="work-card reveal reveal-delay-5">
-          <div class="work-card-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <img
+            src=""
+            alt="Project 5"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
           <div class="work-card-overlay"><h4>Project Name</h4><p>Web · CRM System</p></div>
         </div>
+
+        <!--
+        ╔══════════════════════════════════════════════════════════════╗
+        ║                  HOW TO ADD A NEW WORK CARD                 ║
+        ╠══════════════════════════════════════════════════════════════╣
+        ║  1. Copy everything between the COPY START and COPY END     ║
+        ║  2. Paste it directly after the last </div> card above      ║
+        ║  3. Fill in: src, alt, h4 (project name), p (category)     ║
+        ║  4. Save the file — the new card appears automatically      ║
+        ║                                                              ║
+        ║  To REMOVE a card: delete from <!-- ══ WORK CARD N ══      ║
+        ║  all the way to its closing </div> tag                      ║
+        ╚══════════════════════════════════════════════════════════════╝
+
+        ── COPY START ──────────────────────────────────────────────────
+        <div class="work-card">
+          <img
+            src=""
+            alt="Project Name"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <div class="work-card-overlay"><h4>Project Name</h4><p>Category · Type</p></div>
+        </div>
+        ── COPY END ────────────────────────────────────────────────────
+        -->
       </div>
     </div>
 
@@ -831,39 +927,6 @@
       </div>
 
       <div class="contact-form-wrap">
-
-        <div class="contact-details reveal reveal-delay-1">
-          <h3>Why work with us?</h3>
-          <p>We don't just take briefs. We ask the right questions, understand your business deeply, and build solutions that solve real problems — not just look good.</p>
-
-          <div class="contact-item">
-            <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-            <div class="contact-item-text">
-              <strong>Email</strong>
-              <!--  ── UPDATE EMAIL ── -->
-              <span>hello@bravodasstudios.com</span>
-            </div>
-          </div>
-
-          <div class="contact-item">
-            <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-            <div class="contact-item-text">
-              <strong>Location</strong>
-              <span>Port Harcourt · Lagos · Abuja · Nigeria (Remote)</span>
-            </div>
-          </div>
-
-          <div class="contact-item">
-            <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-            <div class="contact-item-text">
-              <strong>WhatsApp</strong>
-              <!--
-              ── WHATSAPP LINK — replace 234XXXXXXXXXX with your number ──
-              -->
-              <a href="https://wa.me/234XXXXXXXXXX?text=Hi%20Bravoda%20Studios%2C%20I%20found%20you%20and%20I%E2%80%99d%20like%20to%20inquire%20about%20___________" target="_blank">Chat with us directly</a>
-            </div>
-          </div>
-        </div>
 
         <!--
         FORM — action must be updated with your Formspree endpoint
@@ -956,44 +1019,42 @@
           </button>
         </form>
 
-      </div>
-    </div>
-  </section>
+        <div class="contact-details reveal reveal-delay-1">
 
-  <hr class="divider" />
+          <h3>Why work with us?</h3>
+          <p>We don't just take briefs. We ask the right questions, understand your business deeply, and build solutions that solve real problems — not just look good.</p>
 
-  <!-- ============================================================
-       GET IN TOUCH — contact info bar
-  ============================================================ -->
-  <section id="contact">
-    <div class="get-in-touch-grid">
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="contact-item-text">
+              <strong>Email</strong>
+              <!--  ── UPDATE EMAIL ── -->
+              <span>hello@bravodasstudios.com</span>
+            </div>
+          </div>
 
-      <div class="touch-card reveal">
-        <div class="touch-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-        <div class="touch-text">
-          <strong>Email Us</strong>
-          <!--  ── UPDATE EMAIL ── -->
-          <span>hello@bravodasstudios.com</span>
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div class="contact-item-text">
+              <strong>Location</strong>
+              <span>Port Harcourt · Lagos · Abuja · Nigeria (Remote)</span>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <div class="contact-item-text">
+              <strong>WhatsApp</strong>
+              <!--
+              ── WHATSAPP LINK — replace 234XXXXXXXXXX with your number ──
+              -->
+              <a href="https://wa.me/234XXXXXXXXXX?text=Hi%20Bravoda%20Studios%2C%20I%20found%20you%20and%20I%E2%80%99d%20like%20to%20inquire%20about%20___________" target="_blank">Chat with us directly</a>
+            </div>
+          </div>
+
         </div>
-      </div>
 
-      <div class="touch-card reveal reveal-delay-2">
-        <div class="touch-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-        <div class="touch-text">
-          <strong>WhatsApp</strong>
-          <!--  ── UPDATE WHATSAPP NUMBER ── -->
-          <a href="https://wa.me/234XXXXXXXXXX?text=Hi%20Bravoda%20Studios%2C%20I%20found%20you%20and%20I%E2%80%99d%20like%20to%20inquire%20about%20___________" target="_blank">Chat with us on WhatsApp</a>
-        </div>
       </div>
-
-      <div class="touch-card reveal reveal-delay-3">
-        <div class="touch-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <div class="touch-text">
-          <strong>Location</strong>
-          <span>Port Harcourt · Lagos · Abuja · Nigeria</span>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -1003,11 +1064,18 @@
   <footer>
     <!--
     ══════════════════════════════════════════════════
-    FOOTER LOGO — replace with:
-      <img src="YOUR_LOGO.png" alt="Bravoda Studios" class="footer-logo" />
+    FOOTER LOGO — paste your logo file path into src="" below.
+    Same image as the nav logo. Example: src="images/bravoda-logo.png"
     ══════════════════════════════════════════════════
     -->
-    <div class="footer-logo-placeholder">BRAVODA STUDIOS</div>
+    <img
+      src=""
+      alt="Bravoda Studios"
+      class="footer-logo"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+    />
+    <!-- Fallback text shown if logo image is missing -->
+    <div class="footer-logo-placeholder" style="display:none;">BRAVODA STUDIOS</div>
     <p class="footer-copy">© 2025 Bravoda Studios. All rights reserved.</p>
   </footer>
 
