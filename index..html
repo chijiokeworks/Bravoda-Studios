@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <title>Bravoda Studios — We Build The Systems Your Brand Grows On</title>
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --red:        #E8330A;
+      --black:      #0A0A0A;
+      --surface:    #111111;
+      --border:     #1E1E1E;
+      --white:      #FFFFFF;
+      --grey:       #888888;
+      --light-grey: #BBBBBB;
+
+      /* ── LOGO SIZE — edit these two values to resize logo ── */
+      --logo-height-desktop: 38px;
+      --logo-height-mobile:  26px;
+
+      --font: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --radius: 6px;
+      --max-w: 1200px;
+      --nav-h: 68px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      /* Prevent scroll jump when keyboard opens on iOS */
+      position: relative;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ============================================================
+       SCROLL ANIMATIONS
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(10,10,10,0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 32px rgba(0,0,0,0.5); }
+
+    .nav-logo { display: flex; align-items: center; flex-shrink: 0; }
+
+    /*
+    ══════════════════════════════════════════════════════════════
+    LOGO INSTRUCTIONS:
+    Replace the <div class="logo-placeholder"> with:
+      <img src="YOUR_LOGO.png" alt="Bravoda Studios" class="logo-img" />
+    Resize by changing --logo-height-desktop / --logo-height-mobile above.
+    ══════════════════════════════════════════════════════════════
+    */
+    .logo-img { height: var(--logo-height-desktop); width: auto; display: block; }
+    .logo-placeholder {
+      height: var(--logo-height-desktop);
+      display: flex; align-items: center; gap: 8px;
+      font-size: 17px; font-weight: 800; letter-spacing: -0.02em;
+    }
+    .logo-placeholder .logo-word { color: var(--white); }
+    .logo-placeholder .logo-badge {
+      background: var(--red); color: var(--white);
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+      padding: 3px 8px;
+      clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 4px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--light-grey);
+      padding: 8px 14px; border-radius: var(--radius);
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+    .nav-links a.active { color: var(--white); }
+    .nav-cta {
+      background: var(--red) !important; color: var(--white) !important;
+      padding: 9px 18px !important; font-weight: 600 !important;
+    }
+    .nav-cta:hover { opacity: 0.88; background: var(--red) !important; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 8px; border: none;
+      background: transparent; z-index: 1001;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--white); border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: rgba(10,10,10,0.98);
+      backdrop-filter: blur(20px);
+      padding: 20px 20px 28px;
+      border-bottom: 1px solid var(--border);
+      z-index: 999;
+      transform: translateY(-16px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .mobile-menu.open {
+      transform: translateY(0); opacity: 1; pointer-events: all;
+    }
+    .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .mobile-menu a {
+      display: block; padding: 13px 16px;
+      font-size: 15px; font-weight: 500; color: var(--light-grey);
+      border-radius: var(--radius);
+      transition: color 0.2s, background 0.2s;
+      /* Ensure minimum touch target */
+      min-height: 48px; display: flex; align-items: center;
+    }
+    .mobile-menu a:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    .mobile-cta {
+      background: var(--red) !important; color: var(--white) !important;
+      margin-top: 8px; justify-content: center;
+      font-weight: 600 !important;
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: calc(var(--nav-h) + 60px) 48px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 72% 50%, rgba(232,51,10,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(232,51,10,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero-inner { max-width: var(--max-w); margin: 0 auto; width: 100%; position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--red);
+      margin-bottom: 28px; padding: 6px 14px;
+      border: 1px solid rgba(232,51,10,0.3); border-radius: 2px;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--red); border-radius: 50%;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero-h1 {
+      font-size: clamp(34px, 6vw, 80px);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.03em; max-width: 920px;
+    }
+    .hero-h1 .dim { color: var(--grey); font-weight: 400; display: block; }
+    .hero-h1 .bold { display: block; }
+
+    .hero-sub {
+      margin-top: 28px;
+      font-size: clamp(15px, 1.6vw, 18px);
+      line-height: 1.75; color: var(--light-grey); max-width: 620px;
+    }
+
+    .hero-actions {
+      margin-top: 40px; display: flex;
+      gap: 12px; flex-wrap: wrap; align-items: center;
+    }
+
+    .btn-primary {
+      background: var(--red); color: var(--white);
+      padding: 14px 28px; border-radius: var(--radius);
+      font-size: 15px; font-weight: 600; letter-spacing: 0.02em;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 48px; /* touch target */
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,51,10,0.3); }
+
+    .btn-ghost {
+      border: 1px solid var(--border); color: var(--light-grey);
+      padding: 14px 28px; border-radius: var(--radius);
+      font-size: 15px; font-weight: 500;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 48px;
+    }
+    .btn-ghost:hover { border-color: var(--white); color: var(--white); transform: translateY(-2px); }
+
+    /* ============================================================
+       SECTION SHELL
+    ============================================================ */
+    .section { padding: 96px 48px; }
+    .section-inner { max-width: var(--max-w); margin: 0 auto; }
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 14px;
+    }
+    .section-heading {
+      font-size: clamp(26px, 3.2vw, 46px);
+      font-weight: 800; letter-spacing: -0.025em;
+      line-height: 1.1; max-width: 700px;
+    }
+    .section-body {
+      margin-top: 18px; font-size: 16px;
+      line-height: 1.75; color: var(--light-grey); max-width: 580px;
+    }
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* ============================================================
+       SERVICES GRID
+    ============================================================ */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-top: 56px;
+      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+    }
+    .service-card {
+      padding: 32px 28px; background: var(--surface);
+      transition: background 0.25s; position: relative;
+    }
+    .service-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      height: 2px; width: 0; background: var(--red);
+      transition: width 0.35s ease;
+    }
+    .service-card:hover { background: #161616; }
+    .service-card:hover::after { width: 100%; }
+    .service-icon {
+      width: 40px; height: 40px;
+      background: rgba(232,51,10,0.1); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px; transition: background 0.2s;
+    }
+    .service-card:hover .service-icon { background: rgba(232,51,10,0.2); }
+    .service-icon svg { width: 18px; height: 18px; stroke: var(--red); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .service-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em; }
+    .service-card p { font-size: 14px; line-height: 1.7; color: var(--grey); }
+
+    /* ============================================================
+       WORK SECTION
+    ============================================================ */
+    #work { padding-bottom: 0; }
+    .work-scroll-wrapper {
+      margin-top: 48px; overflow-x: auto;
+      padding: 0 48px 0; scrollbar-width: none;
+      -ms-overflow-style: none; cursor: grab;
+      -webkit-overflow-scrolling: touch;
+    }
+    .work-scroll-wrapper::-webkit-scrollbar { display: none; }
+    .work-scroll-wrapper:active { cursor: grabbing; }
+    .work-track { display: flex; gap: 20px; width: max-content; padding-bottom: 48px; }
+
+    /*
+    ══════════════════════════════════════════════════
+    WORK CARD — 340×340 square image holder
+    Replace .work-card-placeholder with:
+      <img src="PROJECT.jpg" alt="Name" class="work-card-img" />
+    Use square images (1:1). Recommended: 680×680px min.
+    ══════════════════════════════════════════════════
+    */
+    .work-card {
+      width: 340px; height: 340px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      flex-shrink: 0; position: relative;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .work-card:hover { border-color: var(--red); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+    .work-card-img { width: 100%; height: 100%; object-fit: cover; }
+    .work-card-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+    }
+    .work-card-placeholder svg { width: 36px; height: 36px; stroke: #2a2a2a; fill: none; stroke-width: 1.5; }
+    .work-card-placeholder span { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #333; }
+    .work-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 24px; opacity: 0; transition: opacity 0.25s;
+    }
+    .work-card:hover .work-card-overlay { opacity: 1; }
+    .work-card-overlay h4 { font-size: 16px; font-weight: 700; }
+    .work-card-overlay p { font-size: 13px; color: var(--light-grey); margin-top: 4px; }
+    .work-cta-row { padding: 32px 48px 72px; max-width: var(--max-w); margin: 0 auto; }
+
+    /* ============================================================
+       ABOUT
+    ============================================================ */
+    #about { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .about-stat-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      margin-top: 36px; border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .stat-card { background: var(--black); padding: 24px 20px; transition: background 0.2s; }
+    .stat-card:hover { background: #0f0f0f; }
+    .stat-card .num { font-size: 36px; font-weight: 800; color: var(--red); line-height: 1; letter-spacing: -0.03em; }
+    .stat-card .label { font-size: 13px; color: var(--grey); margin-top: 6px; }
+    .about-right p { font-size: 15px; line-height: 1.8; color: var(--light-grey); margin-bottom: 16px; }
+
+    /* ============================================================
+       CONTACT FORM SECTION (comes right after About)
+    ============================================================ */
+    #contact-form-section { padding: 96px 48px; }
+
+    .form-section-inner { max-width: var(--max-w); margin: 0 auto; }
+
+    .form-section-header { margin-bottom: 48px; }
+    .form-section-header h2 {
+      font-size: clamp(26px, 3vw, 42px);
+      font-weight: 800; letter-spacing: -0.025em; line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .form-section-header p { font-size: 16px; color: var(--light-grey); line-height: 1.75; max-width: 520px; }
+
+    /*
+    ══════════════════════════════════════════════════════════════
+    CONTACT FORM — MOBILE FIRST
+    Key fix: removed all grid layouts from form on mobile.
+    Each field stacks vertically. Font-size 16px prevents iOS zoom.
+    ══════════════════════════════════════════════════════════════
+    */
+    .contact-form-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+    }
+
+    .contact-details { padding-top: 8px; }
+    .contact-details h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .contact-details p { font-size: 14px; color: var(--light-grey); line-height: 1.7; margin-bottom: 32px; }
+
+    .contact-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 20px; }
+    .contact-item-icon {
+      width: 40px; height: 40px; min-width: 40px;
+      background: rgba(232,51,10,0.1); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .contact-item:hover .contact-item-icon { background: rgba(232,51,10,0.2); }
+    .contact-item-icon svg { width: 16px; height: 16px; stroke: var(--red); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .contact-item-text { font-size: 14px; color: var(--light-grey); line-height: 1.5; }
+    .contact-item-text strong { display: block; color: var(--white); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+
+    /* THE FORM */
+    .contact-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-group label {
+      display: block;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--grey); margin-bottom: 8px;
+    }
+
+    /*
+    CRITICAL MOBILE FIX:
+    font-size: 16px on inputs prevents iOS Safari from auto-zooming
+    when an input is focused. This is the main cause of the scroll jump.
+    Do NOT change to smaller than 16px.
+    */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--black);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 16px; /* MUST stay 16px — prevents iOS zoom/scroll jump */
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+      display: block;
+      /* Prevent tap highlight flicker on mobile */
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(232,51,10,0.12);
+    }
+
+    .form-group textarea {
+      resize: vertical; min-height: 120px;
+      /* Prevent resize handle causing scroll issues on mobile */
+      touch-action: pan-y;
+    }
+
+    .form-group select { cursor: pointer; }
+    .form-group select option { background: #1a1a1a; color: var(--white); }
+
+    /* Inline two-col layout only on desktop */
+    .form-row-desktop {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+
+    .form-submit {
+      width: 100%;
+      background: var(--red); color: var(--white);
+      border: none; border-radius: var(--radius);
+      font-family: var(--font); font-size: 16px; font-weight: 600;
+      padding: 16px; cursor: pointer; letter-spacing: 0.02em;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      min-height: 52px; /* solid touch target */
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .form-submit:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,51,10,0.3); }
+    .form-submit:active { transform: scale(0.99); }
+
+    /* ============================================================
+       GET IN TOUCH (contact info section — after form)
+    ============================================================ */
+    #contact {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 72px 48px;
+    }
+    .get-in-touch-grid {
+      max-width: var(--max-w); margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    }
+    .touch-card { display: flex; gap: 16px; align-items: flex-start; }
+    .touch-icon {
+      width: 44px; height: 44px; min-width: 44px;
+      background: rgba(232,51,10,0.1); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .touch-icon svg { width: 18px; height: 18px; stroke: var(--red); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .touch-text strong { display: block; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .touch-text span { font-size: 14px; color: var(--light-grey); line-height: 1.5; }
+    .touch-text a { color: var(--red); font-size: 14px; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { height: var(--logo-height-desktop); width: auto; opacity: 0.6; }
+    .footer-logo-placeholder { font-size: 14px; font-weight: 800; letter-spacing: -0.01em; opacity: 0.5; }
+    .footer-copy { font-size: 13px; color: var(--grey); }
+
+    /* ============================================================
+       STICKY WHATSAPP
+       ── Replace 234XXXXXXXXXX with your number below ──
+    ============================================================ */
+    .whatsapp-sticky {
+      position: fixed; bottom: 24px; right: 24px; z-index: 500;
+      width: 56px; height: 56px; background: #25D366;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .whatsapp-sticky:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(37,211,102,0.45); }
+    .whatsapp-sticky svg { width: 28px; height: 28px; fill: #fff; }
+    .whatsapp-sticky::after {
+      content: ''; position: absolute; inset: -5px; border-radius: 50%;
+      border: 2px solid rgba(37,211,102,0.35);
+      animation: wapulse 2.2s ease-out infinite;
+    }
+    @keyframes wapulse { 0%{transform:scale(1);opacity:1} 100%{transform:scale(1.55);opacity:0} }
+
+    /* ============================================================
+       RESPONSIVE — MOBILE FIRST
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .get-in-touch-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      /* Nav */
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: block; }
+
+      /* Sections */
+      .section { padding: 60px 20px; }
+      #contact-form-section { padding: 60px 20px; }
+      #contact { padding: 60px 20px; }
+
+      /* Hero */
+      .hero { padding: calc(var(--nav-h) + 32px) 20px 60px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-ghost { width: 100%; }
+
+      /* Services */
+      .services-grid { grid-template-columns: 1fr; }
+
+      /* Work */
+      .work-scroll-wrapper { padding: 0 20px 0; }
+      .work-track { padding-bottom: 32px; }
+      .work-card { width: 260px; height: 260px; }
+      .work-cta-row { padding: 24px 20px 60px; }
+
+      /* About */
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+
+      /* Contact form — single column on mobile */
+      .contact-form-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .contact-form { padding: 24px 20px; }
+      /* CRITICAL: remove side-by-side on mobile */
+      .form-row-desktop { grid-template-columns: 1fr; gap: 0; }
+
+      /* Get in touch */
+      .get-in-touch-grid { grid-template-columns: 1fr; gap: 24px; }
+
+      /* Footer */
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; gap: 10px; }
+
+      /* Logo sizes */
+      .logo-placeholder { height: var(--logo-height-mobile); font-size: 14px; }
+      .logo-img { height: var(--logo-height-mobile); }
+
+      /* WhatsApp button */
+      .whatsapp-sticky { bottom: 16px; right: 16px; width: 52px; height: 52px; }
+      .whatsapp-sticky svg { width: 26px; height: 26px; }
+    }
+
+    @media (max-width: 420px) {
+      .hero-h1 { font-size: 30px; }
+      .work-card { width: 240px; height: 240px; }
+      .about-stat-grid { grid-template-columns: 1fr 1fr; }
+      .contact-form { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       Nav links: Home | What We Do | Work | About | Contact Us
+       All linked to their respective sections via smooth scroll
+  ============================================================ -->
+  <nav id="navbar">
+    <a href="#home" class="nav-logo">
+      <!--
+      ══════════════════════════════════════════════════
+      NAV LOGO — paste your logo file path into src="" below.
+      Example: src="images/bravoda-logo.png"
+      To resize: edit --logo-height-desktop and --logo-height-mobile
+      in the :root CSS variables at the top of this file.
+      ══════════════════════════════════════════════════
+      -->
+      <img
+        src="Bravoda studios combo@4x-8.png"
+        alt="Bravoda Studios"
+        class="logo-img"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <!-- Fallback text shown if logo image is missing -->
+      <div class="logo-placeholder" style="display:none;">
+        <span class="logo-word">BRAVODA</span>
+        <span class="logo-badge">STUDIOS</span>
+      </div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#services">What We Do</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact-form-section" class="nav-cta">Contact Us</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#home" class="mobile-link">Home</a></li>
+      <li><a href="#services" class="mobile-link">What We Do</a></li>
+      <li><a href="#work" class="mobile-link">Work</a></li>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#contact-form-section" class="mobile-link mobile-cta">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <span class="hero-eyebrow reveal">Strategy · Brand · Systems</span>
+
+      <h1 class="hero-h1">
+        <span class="dim reveal reveal-delay-1">We don't Just Build Brands.</span>
+        <span class="bold reveal reveal-delay-2">We Build The Systems<br>Your Brand Grows On.</span>
+      </h1>
+
+      <p class="hero-sub reveal reveal-delay-3">
+        We go beyond designing brands and building websites. We integrate your business identity, customer journey, and sales process into one profit-generating engine — so your business grows, retains clients, and scales automatically.
+      </p>
+
+      <div class="hero-actions reveal reveal-delay-4">
+        <a href="#contact-form-section" class="btn-primary">Start a Project</a>
+        <a href="#work" class="btn-ghost">See Our Work</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ============================================================
+       WHAT WE DO
+  ============================================================ -->
+  <section class="section" id="services">
+    <div class="section-inner">
+      <p class="section-label reveal">What We Do</p>
+      <h2 class="section-heading reveal reveal-delay-1">Beyond design. Beyond websites. We solve real business problems.</h2>
+      <p class="section-body reveal reveal-delay-2">Every service we offer is built around one goal — making your business work better, attract the right clients, and convert consistently.</p>
+
+      <div class="services-grid">
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <h3>Brand Development</h3>
+          <p>We build the strategy, identity, and messaging system that makes your business the obvious choice — from positioning to visual identity to brand guidelines.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <h3>Web & Digital Experience</h3>
+          <p>Websites that don't just sit there. We build web experiences with intent — designed to capture leads, build trust, and move visitors toward action.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-3">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <h3>Sales & Funnel Systems</h3>
+          <p>We map and build the journey from stranger to paying client — landing pages, lead capture, follow-up automation, and conversion strategy.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
+          <h3>Growth Systems & Automation</h3>
+          <p>We integrate AI and automation into how your business communicates and operates — so you scale without multiplying your workload.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <h3>Marketing & Content</h3>
+          <p>Content strategy, social media direction, and campaign development — all rooted in strategy, not just aesthetics.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-3">
+          <div class="service-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <h3>Business Operating Systems</h3>
+          <p>Custom CRM, client management, and business backend systems — built specifically for your industry so your entire operation runs from one place.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ============================================================
+       WORK
+       ── Replace .work-card-placeholder with real project images:
+          <img src="IMAGE.jpg" alt="Project Name" class="work-card-img" />
+          Use square images (1:1 ratio). Recommended size: 680×680px
+       ── Update Behance href below
+  ============================================================ -->
+  <section class="section" id="work">
+    <div class="section-inner">
+      <p class="section-label reveal">Our Work</p>
+      <h2 class="section-heading reveal reveal-delay-1">Projects built with strategy at the core.</h2>
+    </div>
+
+    <div class="work-scroll-wrapper" id="workScroll">
+      <div class="work-track">
+        <!-- ══ WORK CARD 1 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
+        <div class="work-card reveal reveal-delay-1">
+          <img
+            src="HOLDER 1.png"
+            alt="Project 1"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <div class="work-card-overlay"><h4>Project Name</h4><p>Brand Strategy · Identity</p></div>
+        </div>
+        <!-- ══ WORK CARD 2 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
+        <div class="work-card reveal reveal-delay-2">
+          <img
+            src="HOLDER 2.png"
+            alt="Project 2"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <div class="work-card-overlay"><h4>Project Name</h4><p>Web · Sales Funnel</p></div>
+        </div>
+        <!-- ══ WORK CARD 3 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
+        <div class="work-card reveal reveal-delay-3">
+          <img
+            src="HOLDER 3.png"
+            alt="Project 3"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <div class="work-card-overlay"><h4>Project Name</h4><p>Marketing · Content</p></div>
+        </div>
+        <!-- ══ WORK CARD 4 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
+        <div class="work-card reveal reveal-delay-4">
+          <img
+            src=""
+            alt="Project 4"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <div class="work-card-overlay"><h4>Project Name</h4><p>Brand · Automation</p></div>
+        </div>
+        <!-- ══ WORK CARD 5 ══
+             src=""        → paste your image file path here
+             alt=""        → describe the project
+             h4            → project name
+             p             → project category
+        -->
+        <div class="work-card reveal reveal-delay-5">
+          <img
+            src=""
+            alt="Project 5"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <div class="work-card-overlay"><h4>Project Name</h4><p>Web · CRM System</p></div>
+        </div>
+
+        <!--
+        ╔══════════════════════════════════════════════════════════════╗
+        ║                  HOW TO ADD A NEW WORK CARD                 ║
+        ╠══════════════════════════════════════════════════════════════╣
+        ║  1. Copy everything between the COPY START and COPY END     ║
+        ║  2. Paste it directly after the last </div> card above      ║
+        ║  3. Fill in: src, alt, h4 (project name), p (category)     ║
+        ║  4. Save the file — the new card appears automatically      ║
+        ║                                                              ║
+        ║  To REMOVE a card: delete from <!-- ══ WORK CARD N ══      ║
+        ║  all the way to its closing </div> tag                      ║
+        ╚══════════════════════════════════════════════════════════════╝
+
+        ── COPY START ──────────────────────────────────────────────────
+        <div class="work-card">
+          <img
+            src=""
+            alt="Project Name"
+            class="work-card-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="work-card-placeholder" style="display:none;"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Add Project Image</span></div>
+          <div class="work-card-overlay"><h4>Project Name</h4><p>Category · Type</p></div>
+        </div>
+        ── COPY END ────────────────────────────────────────────────────
+        -->
+      </div>
+    </div>
+
+    <div class="work-cta-row reveal">
+      <!--
+      ══════════════════════════════════════════════════
+      BEHANCE LINK — replace href with your Behance URL
+      ══════════════════════════════════════════════════
+      -->
+      <a href="https://www.behance.net/bravodasstudios" target="_blank" rel="noopener" class="btn-ghost">
+        View Full Portfolio on Behance →
+      </a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ============================================================
+       ABOUT
+  ============================================================ -->
+  <section class="section" id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-left">
+          <p class="section-label reveal">About Bravoda Studios</p>
+          <h2 class="section-heading reveal reveal-delay-1">Strategy-led. Growth-focused. Built for business.</h2>
+          <div class="about-stat-grid">
+            <div class="stat-card reveal reveal-delay-1"><div class="num">5+</div><div class="label">Years of Experience</div></div>
+            <div class="stat-card reveal reveal-delay-2"><div class="num">20+</div><div class="label">Projects Delivered</div></div>
+            <div class="stat-card reveal reveal-delay-3"><div class="num">100%</div><div class="label">Remote. Nationwide.</div></div>
+            <div class="stat-card reveal reveal-delay-4"><div class="num">∞</div><div class="label">Outcomes Over Outputs</div></div>
+          </div>
+        </div>
+        <div class="about-right">
+          <p class="reveal">Bravoda Studios is a strategy-led creative agency that helps growing businesses stop losing customers to competitors who simply look and sound more credible online.</p>
+          <p class="reveal reveal-delay-1">We work with founders and business owners whose efforts are not translating into consistent results — who know something is wrong but cannot quite pinpoint what it is or handle it alone.</p>
+          <p class="reveal reveal-delay-2">We build the brand, messaging, marketing, and sales systems that make your business the obvious choice — so the right customers find you, trust you, and buy from you.</p>
+          <a href="#contact-form-section" class="btn-primary reveal reveal-delay-3" style="margin-top:12px; display:inline-flex;">Work With Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ============================================================
+       CONTACT FORM SECTION
+       Placed right after About — before the Get In Touch section
+
+       FORMSPREE SETUP:
+       1. Go to formspree.io — create a free account
+       2. Create a new form
+       3. Copy your endpoint: https://formspree.io/f/XXXXXXXX
+       4. Replace the form action below with your endpoint
+
+       EMAIL: Update hello@bravodasstudios.com if needed
+  ============================================================ -->
+  <section id="contact-form-section">
+    <div class="form-section-inner">
+
+      <div class="form-section-header reveal">
+        <p class="section-label">Contact Us</p>
+        <h2>Let's build something that actually works for your business.</h2>
+        <p>Tell us about your business and what you're trying to achieve. We'll get back to you within 24 hours.</p>
+      </div>
+
+      <div class="contact-form-wrap">
+
+        <!--
+        FORM — action must be updated with your Formspree endpoint
+        -->
+        <form
+          class="contact-form reveal reveal-delay-2"
+          action="https://formspree.io/f/XXXXXXXX"
+          method="POST"
+          id="contactForm"
+          novalidate
+        >
+          <!-- On desktop: two columns. On mobile: stacks to one column via .form-row-desktop -->
+          <div class="form-row-desktop">
+            <div class="form-group">
+              <label for="fname">Full Name</label>
+              <input
+                type="text"
+                id="fname"
+                name="name"
+                placeholder="Your name"
+                required
+                autocomplete="name"
+                inputmode="text"
+              />
+            </div>
+            <div class="form-group">
+              <label for="femail">Email Address</label>
+              <input
+                type="email"
+                id="femail"
+                name="email"
+                placeholder="your@email.com"
+                required
+                autocomplete="email"
+                inputmode="email"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fbusiness">Business Name</label>
+            <input
+              type="text"
+              id="fbusiness"
+              name="business"
+              placeholder="Your business name"
+              autocomplete="organization"
+              inputmode="text"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="fphone">WhatsApp / Phone Number</label>
+            <input
+              type="tel"
+              id="fphone"
+              name="phone"
+              placeholder="+234 801 234 5678"
+              autocomplete="tel"
+              inputmode="tel"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="fservice">What do you need help with?</label>
+            <select id="fservice" name="service">
+              <option value="">Select a service</option>
+              <option>Brand Development</option>
+              <option>Web &amp; Digital Experience</option>
+              <option>Sales &amp; Funnel Systems</option>
+              <option>Growth Systems &amp; Automation</option>
+              <option>Marketing &amp; Content</option>
+              <option>Business Operating System / CRM</option>
+              <option>Not sure yet — let's talk</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="fmessage">Tell us about your business</label>
+            <textarea
+              id="fmessage"
+              name="message"
+              placeholder="What does your business do? What problem are you trying to solve?"
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="form-submit" id="formSubmitBtn">
+            Send Message →
+          </button>
+        </form>
+
+        <div class="contact-details reveal reveal-delay-1">
+
+          <h3>Why work with us?</h3>
+          <p>We don't just take briefs. We ask the right questions, understand your business deeply, and build solutions that solve real problems — not just look good.</p>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="contact-item-text">
+              <strong>Email</strong>
+              <!--  ── UPDATE EMAIL ── -->
+              <span>hello@bravodasstudios.com</span>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div class="contact-item-text">
+              <strong>Location</strong>
+              <span>Port Harcourt · Lagos · Abuja · Nigeria (Remote)</span>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <div class="contact-item-text">
+              <strong>WhatsApp</strong>
+              <!--
+              ── WHATSAPP LINK — replace 234XXXXXXXXXX with your number ──
+              -->
+              <a href="https://wa.me/234XXXXXXXXXX?text=Hi%20Bravoda%20Studios%2C%20I%20found%20you%20and%20I%E2%80%99d%20like%20to%20inquire%20about%20___________" target="_blank">Chat with us directly</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <!--
+    ══════════════════════════════════════════════════
+    FOOTER LOGO — paste your logo file path into src="" below.
+    Same image as the nav logo. Example: src="images/bravoda-logo.png"
+    ══════════════════════════════════════════════════
+    -->
+    <img
+      src=""
+      alt="Bravoda Studios"
+      class="footer-logo"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+    />
+    <!-- Fallback text shown if logo image is missing -->
+    <div class="footer-logo-placeholder" style="display:none;">BRAVODA STUDIOS</div>
+    <p class="footer-copy">© 2025 Bravoda Studios. All rights reserved.</p>
+  </footer>
+
+  <!-- ============================================================
+       STICKY WHATSAPP
+       ── Replace 234XXXXXXXXXX with your number
+          e.g. 2348012345678 for +234 801 234 5678
+  ============================================================ -->
+  <a
+    class="whatsapp-sticky"
+    href="https://wa.me/234XXXXXXXXXX?text=Hi%20Bravoda%20Studios%2C%20I%20found%20you%20and%20I%E2%80%99d%20like%20to%20inquire%20about%20___________"
+    target="_blank"
+    rel="noopener"
+    aria-label="Chat on WhatsApp"
+  >
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- ============================================================
+       SCRIPTS
+  ============================================================ -->
+  <script>
+    // ── Hamburger ──
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+
+    // ── Nav shadow on scroll ──
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // ── Active nav link ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    function updateActive() {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.classList.remove('active');
+        const href = a.getAttribute('href').replace('#','');
+        if (href === current) a.classList.add('active');
+      });
+    }
+    window.addEventListener('scroll', updateActive, { passive: true });
+
+    // ── Scroll reveal ──
+    const revealEls = document.querySelectorAll('.reveal');
+    const ro = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+    revealEls.forEach(el => ro.observe(el));
+
+    // ── Horizontal drag scroll ──
+    const ws = document.getElementById('workScroll');
+    let isDown = false, sx, sl;
+    ws.addEventListener('mousedown', e => { isDown = true; sx = e.pageX - ws.offsetLeft; sl = ws.scrollLeft; ws.style.cursor='grabbing'; });
+    ['mouseleave','mouseup'].forEach(ev => ws.addEventListener(ev, () => { isDown=false; ws.style.cursor='grab'; }));
+    ws.addEventListener('mousemove', e => {
+      if (!isDown) return; e.preventDefault();
+      ws.scrollLeft = sl - (e.pageX - ws.offsetLeft - sx) * 1.5;
+    });
+
+    // ── MOBILE FORM FIX ──
+    // Prevents the scroll-jump bug when tapping form fields on iOS.
+    // When a field is focused, we scroll to it smoothly ourselves
+    // instead of letting the browser do it (which causes the jump).
+    const formFields = document.querySelectorAll(
+      '#contactForm input, #contactForm select, #contactForm textarea'
+    );
+
+    formFields.forEach(field => {
+      field.addEventListener('focus', function() {
+        // Small delay allows keyboard to start opening first
+        setTimeout(() => {
+          const rect = this.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const targetY = rect.top + scrollTop - 120; // 120px offset from top
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }, 300);
+      }, { passive: true });
+    });
+
+    // ── Form submit ──
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('formSubmitBtn');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      submitBtn.textContent = 'Sending…';
+      submitBtn.disabled = true;
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          submitBtn.textContent = 'Message Sent ✓';
+          submitBtn.style.background = '#1a8a3a';
+          form.reset();
+        } else {
+          throw new Error();
+        }
+      } catch {
+        submitBtn.textContent = 'Something went wrong — reach us on WhatsApp';
+        submitBtn.style.background = '#333';
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>
